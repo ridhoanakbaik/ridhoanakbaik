@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Dragon Cell - Toko Voucher & Aksesoris HP dengan SPK SAW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Denim color for Tailwind */
+        .bg-denim-700 {
+            background-color: #1560bd;
+        }
+
+        .text-denim-700 {
+            color: #1560bd;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes pulseScale {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-pulseScale {
+            animation: pulseScale 2s infinite;
+        }
+
+        /* SAW Modal Styles */
+        .saw-modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .saw-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .saw-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .saw-close:hover {
+            color: black;
+        }
+
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .criteria-table th,
+        .criteria-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .criteria-table th {
+            background-color: #f2f2f2;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .result-table th,
+        .result-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .result-table th {
+            background-color: #1560bd;
+            color: white;
+        }
+
+        .result-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* SPK SAW Table Styles */
+        .spk-table,
+        .spk-table th,
+        .spk-table td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+
+        .spk-table th {
+            background-color: #eee;
+        }
+
+        .spk-input {
+            width: 80px;
+        }
+
+        .spk-button {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-900">
+    <!-- Navbar -->
+    <nav class="bg-denim-700 shadow-md fixed w-full z-30 top-0 left-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a class="flex items-center space-x-2" href="#">
+                    <img alt="Logo Dragon Cell, icon with letters DC in denim blue background"
+                        class="h-10 w-10 rounded animate-fadeInUp" height="40" src="dragoncell.jpeg" width="40" />
+                    <span class="text-white font-bold text-xl tracking-wide animate-fadeInUp">
+                        Dragon Cell
+                    </span>
+                </a>
+                <div class="hidden md:flex space-x-8 text-white font-semibold">
+                    <a class="hover:text-gray-300 transition animate-fadeInUp" href="#home">
+                        Beranda
+                    </a>
+                    <a class="hover:text-gray-300 transition animate-fadeInUp delay-75" href="#voucher">
+                        Voucher Kuota
+                    </a>
+                    <a class="hover:text-gray-300 transition animate-fadeInUp delay-150" href="#aksesoris">
+                        Aksesoris
+                    </a>
+                    <a class="hover:text-gray-300 transition animate-fadeInUp delay-200" href="#casing">
+                        Casing HP
+                    </a>
+                    <a class="hover:text-gray-300 transition animate-fadeInUp delay-300" href="#spk-saw">
+                        SPK SAW
+                    </a>
+                    <button onclick="openSawModal()" class="hover:text-gray-300 transition animate-fadeInUp delay-300">
+                        Rekomendasi Produk
+                    </button>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-white focus:outline-none" id="menu-btn">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="hidden md:hidden bg-[#1560bd] px-4 pb-4" id="mobile-menu">
+            <a class="block py-2 text-white font-semibold border-b border-white/30" href="#home">
+                Beranda
+            </a>
+            <a class="block py-2 text-white font-semibold border-b border-white/30" href="#voucher">
+                Voucher Kuota
+            </a>
+            <a class="block py-2 text-white font-semibold border-b border-white/30" href="#aksesoris">
+                Aksesoris
+            </a>
+            <a class="block py-2 text-white font-semibold border-b border-white/30" href="#casing">
+                Casing HP
+            </a>
+            <a class="block py-2 text-white font-semibold border-b border-white/30" href="#spk-saw">
+                SPK SAW
+            </a>
+            <button onclick="openSawModal()"
+                class="block py-2 text-white font-semibold border-b border-white/30 w-full text-left">
+                Rekomendasi Produk
+            </button>
+        </div>
+    </nav>
+
+    <!-- SAW Modal -->
+    <div id="sawModal" class="saw-modal">
+        <div class="saw-modal-content">
+            <span class="saw-close" onclick="closeSawModal()">&times;</span>
+            <h2 class="text-2xl font-bold text-[#1560bd] mb-4">Sistem Rekomendasi Produk dengan Metode SAW</h2>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-2">Kriteria Penilaian:</h3>
+                <table class="criteria-table">
+                    <thead>
+                        <tr>
+                            <th>Kriteria</th>
+                            <th>Bobot</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Harga</td>
+                            <td>30%</td>
+                            <td>Semakin makin baik (Cost)</td>
+                        </tr>
+                        <tr>
+                            <td>Kualitas</td>
+                            <td>25%</td>
+                            <td>Semakin tinggi semakin baik (Benefit)</td>
+                        </tr>
+                        <tr>
+                            <td>Popularitas</td>
+                            <td>20%</td>
+                            <td>Semakin populer semakin baik (Benefit)</td>
+                        </tr>
+                        <tr>
+                            <td>Garansi</td>
+                            <td>15%</td>
+                            <td>Semakin lama semakin baik (Benefit)</td>
+                        </tr>
+                        <tr>
+                            <td>Ketersediaan</td>
+                            <td>10%</td>
+                            <td>Semakin tersedia semakin baik (Benefit)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xl font-semibold mb-2">Pilih Kategori Produk:</h3>
+                <select id="productCategory" class="border rounded p-2 w-full mb-4">
+                    <option value="voucher">Voucher Kuota</option>
+                    <option value="powerbank">Powerbank</option>
+                    <option value="earphone">Earphone Bluetooth</option>
+                    <option value="casing">Casing HP</option>
+                </select>
+                <button onclick="calculateSAW()"
+                    class="bg-[#1560bd] text-white font-semibold px-4 py-2 rounded hover:bg-[#0f4a8a] transition">
+                    Hitung Rekomendasi
+                </button>
+            </div>
+
+            <div id="sawResults" class="hidden">
+                <h3 class="text-xl font-semibold mb-2">Hasil Rekomendasi:</h3>
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th>Nilai SAW</th>
+                            <th>Ranking</th>
+                            <th>Rekomendasi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sawResultsBody">
+                        <!-- Results will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section
+            class="bg-[#1560bd] text-white py-20 px-6 sm:px-12 md:px-20 flex flex-col-reverse md:flex-row items-center max-w-7xl mx-auto"
+            id="home">
+            <div class="md:w-1/2 space-y-6 animate-fadeInUp">
+                <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">
+                    Dragon Cell
+                    <br />
+                    Solusi Voucher &amp; Aksesoris HP Terpercaya
+                </h1>
+                <p class="text-lg sm:text-xl max-w-md">
+                    Menyediakan voucher kuota Telkomsel, XL, Smartfren, IM3, dan Exsis serta aksesoris HP berkualitas
+                    seperti powerbank, earphone bluetooth, dan casing untuk semua merek HP.
+                </p>
+                <a class="inline-block bg-white text-[#1560bd] font-semibold px-6 py-3 rounded shadow hover:bg-gray-100 transition animate-pulseScale"
+                    href="#voucher" role="button" tabindex="0">
+                    Belanja Sekarang
+                </a>
+                <button onclick="openSawModal()"
+                    class="inline-block bg-white text-[#1560bd] font-semibold px-6 py-3 rounded shadow hover:bg-gray-100 transition animate-pulseScale ml-4">
+                    Dapatkan Rekomendasi
+                </button>
+            </div>
+            <div class="md:w-1/2 mb-10 md:mb-0 flex justify-center animate-fadeInUp delay-150">
+                <img alt="Display of smartphone with various accessories like powerbank, earphone bluetooth, and phone casing in denim blue and white theme"
+                    class="rounded-lg shadow-lg" height="350" src="dragoncell.jpeg" width="400" />
+            </div>
+        </section>
+
+        <!-- Voucher Kuota Section -->
+        <section class="py-16 px-6 sm:px-12 md:px-20 max-w-7xl mx-auto" id="voucher">
+            <h2 class="text-3xl font-bold text-[#1560bd] mb-8 text-center animate-fadeInUp">
+                Voucher Kuota
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+                <!-- Telkomsel -->
+                <div class="border rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0s;">
+                    <img alt="Logo Telkomsel in red and white colors" class="mb-4" height="100"
+                        src="https://www.flokq.com/blog/wp-content/uploads/2020/05/main-qimg-51e3e2472d1d074891e0973584ffed41.jpg"
+                        width="100" />
+                    <h3 class="font-semibold text-lg mb-2">
+                        Telkomsel
+                    </h3>
+                    <p class="text-center text-gray-700 mb-4">
+                        Voucher kuota internet Telkomsel dengan berbagai pilihan paket.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Voucher%20Kuota%20Telkomsel"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <!-- XL -->
+                <div class="border rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.1s;">
+                    <img alt="Logo XL Axiata in blue and white colors" class="mb-4" height="100"
+                        src="https://download.logo.wine/logo/XL_Axiata/XL_Axiata-Logo.wine.png" width="100" />
+                    <h3 class="font-semibold text-lg mb-2">
+                        XL
+                    </h3>
+                    <p class="text-center text-gray-700 mb-4">
+                        Voucher kuota internet XL dengan paket hemat dan lengkap.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Voucher%20Kuota%20xl"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <!-- Smartfren -->
+                <div class="border rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.2s;">
+                    <img alt="Logo Smartfren in red and white colors" class="mb-4" height="100"
+                        src="https://images.bisnis.com/posts/2020/06/05/1249109/smart-fren.jpg" width="100" />
+                    <h3 class="font-semibold text-lg mb-2">
+                        Smartfren
+                    </h3>
+                    <p class="text-center text-gray-700 mb-4">
+                        Voucher kuota Smartfren dengan jaringan 4G cepat dan stabil.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Voucher%20Kuota%20Smartfren"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <!-- IM3 -->
+                <div class="border rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.3s;">
+                    <img alt="Logo IM3 Ooredoo in yellow and black colors" class="mb-4" height="100"
+                        src="https://cdn.freebiesupply.com/logos/large/2x/indosat-1-logo-png-transparent.png"
+                        width="100" />
+                    <h3 class="font-semibold text-lg mb-2">
+                        IM3
+                    </h3>
+                    <p class="text-center text-gray-700 mb-4">
+                        Voucher kuota IM3 dengan paket internet murah dan lengkap.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Voucher%20Kuota%20IM3"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <!-- Exsis -->
+                <div class="border rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.4s;">
+                    <img alt="Logo Exsis in green and white colors" class="mb-4" height="100"
+                        src="https://2.bp.blogspot.com/-QQFnaF49iQE/UMrHDkYpAsI/AAAAAAAAAIo/8rIWh-P6VQE/s320/images+(2).jpg"
+                        width="100" />
+                    <h3 class="font-semibold text-lg mb-2">
+                        Exsis
+                    </h3>
+                    <p class="text-center text-gray-700 mb-4">
+                        Voucher kuota Exsis dengan pilihan paket yang fleksibel.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Voucher%20Kuota%20Exsis"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        <!-- Aksesoris Section -->
+        <section class="bg-[#1560bd] text-white py-16 px-6 sm:px-12 md:px-20 max-w-7xl mx-auto" id="aksesoris">
+            <h2 class="text-3xl font-bold mb-12 text-center animate-fadeInUp">
+                Aksesoris HP
+            </h2>
+            <!-- Powerbank -->
+            <div class="mb-14">
+                <h3
+                    class="text-2xl font-semibold mb-6 border-b border-white/50 pb-2 max-w-max mx-auto animate-fadeInUp">
+                    Powerbank
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Xiaomi -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0s;">
+                        <img alt="Xiaomi powerbank in orange color with sleek modern design" class="mb-4 rounded"
+                            height="150"
+                            src="https://storage.googleapis.com/a1aa/image/c21efae1-44de-4592-7af5-63025c3ce8a7.jpg"
+                            width="150" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            Xiaomi
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Powerbank berkualitas dengan kapasitas besar dan desain stylish.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Powerbank%20xiaomi%20apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Vivan -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0.1s;">
+                        <img alt="Vivan powerbank in blue color with compact design" class="mb-4 rounded" height="150"
+                            src="https://storage.googleapis.com/a1aa/image/fb7d3d1e-762b-46b4-432b-0e7b2a09cbaa.jpg"
+                            width="150" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            Vivan
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Powerbank tahan lama dengan berbagai kapasitas pilihan.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Powerbank%20vivan%20apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Robot -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0.2s;">
+                        <img alt="Robot powerbank in black color with futuristic design" class="mb-4 rounded"
+                            height="150"
+                            src="https://media.karousell.com/media/photos/products/2022/12/1/powerbank_robot_10000_mah_rt18_1669872213_3f599059_progressive.jpg"
+                            width="150" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            Robot
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Powerbank dengan teknologi pengisian cepat dan keamanan tinggi.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Powerbank%20robot%20Apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Earphone Bluetooth -->
+            <div class="mb-14">
+                <h3
+                    class="text-2xl font-semibold mb-6 border-b border-white/50 pb-2 max-w-max mx-auto animate-fadeInUp">
+                    Earphone Bluetooth
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                    <!-- Robot -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0s;">
+                        <img alt="Robot brand black wireless bluetooth earphone with charging case" class="mb-4 rounded"
+                            height="140"
+                            src="https://storage.googleapis.com/a1aa/image/f6b39e8b-b366-4768-6435-e49930ce5e40.jpg"
+                            width="140" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            Robot
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Earphone bluetooth dengan suara jernih dan koneksi stabil.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Earphone%20bermerek%20robot%20Apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                    <!-- JBL -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0.1s;">
+                        <img alt="JBL brand orange wireless bluetooth earphone with ergonomic design"
+                            class="mb-4 rounded" height="140"
+                            src="https://storage.googleapis.com/a1aa/image/80a6136f-117e-453c-ca8e-ef083f8ef01b.jpg"
+                            width="140" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            JBL
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Earphone bluetooth dengan bass kuat dan desain nyaman.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Earphone%20bermerek%20JBL%20Apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Jete -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0.2s;">
+                        <img alt="Jete brand blue wireless bluetooth earphone with compact charging case"
+                            class="mb-4 rounded" height="140"
+                            src="https://storage.googleapis.com/a1aa/image/2a9976fa-499b-4fda-b49e-99acca7f39eb.jpg"
+                            width="140" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            Jete
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Earphone bluetooth dengan kualitas suara jernih dan tahan lama.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Earphone%20bermerek%20jete%20Apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Monster -->
+                    <div class="bg-white text-gray-900 rounded-lg shadow p-6 flex flex-col items-center animate-fadeInUp"
+                        style="animation-delay: 0.3s;">
+                        <img alt="Monster brand black wireless bluetooth earphone with sleek design"
+                            class="mb-4 rounded" height="140"
+                            src="https://storage.googleapis.com/a1aa/image/31b796d1-3fdb-4481-2f49-67a76e567b65.jpg"
+                            width="140" />
+                        <h4 class="font-semibold text-lg mb-1">
+                            Monster
+                        </h4>
+                        <p class="text-center text-gray-700 mb-4">
+                            Earphone bluetooth dengan suara berkualitas tinggi dan nyaman dipakai.
+                        </p>
+                        <div class="flex items-center space-x-2 w-full">
+                            <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Earphone%20bermerek%20monster%20Apa%20ada?"
+                                target="_blank"
+                                class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                                role="button">
+                                Beli
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Casing HP Section -->
+        <section class="py-16 px-6 sm:px-12 md:px-20 max-w-7xl mx-auto" id="casing">
+            <h2 class="text-3xl font-bold text-[#1560bd] mb-8 text-center animate-fadeInUp">
+                Casing HP
+            </h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-700 mb-12 animate-fadeInUp">
+                Kami menyediakan casing HP untuk semua merek dengan berbagai model dan bahan berkualitas untuk
+                melindungi dan mempercantik ponsel Anda.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <div class="border rounded-lg p-4 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0s;">
+                    <img alt="Samsung smartphone casing in denim blue color with sleek design" class="mb-4 rounded"
+                        height="160"
+                        src="https://storage.googleapis.com/a1aa/image/740e0222-12c8-4fc9-516f-23e53a7a1e98.jpg"
+                        width="160" />
+                    <h4 class="font-semibold text-lg mb-1">
+                        Samsung
+                    </h4>
+                    <p class="text-center text-gray-700 mb-4">
+                        Casing berkualitas untuk berbagai tipe Samsung.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Casing%20untuk%20samsung%20apa%20ada?"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <div class="border rounded-lg p-4 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.1s;">
+                    <img alt="Apple iPhone casing in red color with slim and elegant design" class="mb-4 rounded"
+                        height="160"
+                        src="https://storage.googleapis.com/a1aa/image/f9210789-3ce9-4e36-e962-1985f7ba420a.jpg"
+                        width="160" />
+                    <h4 class="font-semibold text-lg mb-1">
+                        Apple iPhone
+                    </h4>
+                    <p class="text-center text-gray-700 mb-4">
+                        Casing elegan dan tahan lama untuk iPhone.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Casing%20untuk%20iphone%20apa%20ada?"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <div class="border rounded-lg p-4 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.2s;">
+                    <img alt="Oppo smartphone casing in green color with modern design" class="mb-4 rounded"
+                        height="160"
+                        src="https://storage.googleapis.com/a1aa/image/2179eae7-eadd-4603-aad1-627918cfe336.jpg"
+                        width="160" />
+                    <h4 class="font-semibold text-lg mb-1">
+                        Oppo
+                    </h4>
+                    <p class="text-center text-gray-700 mb-4">
+                        Casing stylish untuk berbagai tipe Oppo.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Casing%20untuk%20oppo%20apa%20ada?"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+                <div class="border rounded-lg p-4 flex flex-col items-center shadow hover:shadow-lg transition animate-fadeInUp"
+                    style="animation-delay: 0.3s;">
+                    <img alt="Xiaomi smartphone casing in orange color with durable material" class="mb-4 rounded"
+                        height="160"
+                        src="https://storage.googleapis.com/a1aa/image/1bdd42ea-c1a5-4ae2-49f3-de0b7c279aa4.jpg"
+                        width="160" />
+                    <h4 class="font-semibold text-lg mb-1">
+                        Xiaomi
+                    </h4>
+                    <p class="text-center text-gray-700 mb-4">
+                        Casing kuat dan modis untuk Xiaomi.
+                    </p>
+                    <div class="flex items-center space-x-2 w-full">
+                        <a href="https://wa.me/6285282909900?text=Halo%2C%20saya%20ingin%20beli%20Casing%20untuk%20xiaomi%20apa%20ada?"
+                            target="_blank"
+                            class="bg-[#1560bd] text-white text-sm font-medium px-3 py-1.5 rounded-md shadow-sm hover:bg-[#0f4a8a] transition flex-1 text-center"
+                            role="button">
+                            Beli
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPK SAW Section -->
+        <section class="py-16 px-6 sm:px-12 md:px-20 max-w-7xl mx-auto bg-gray-50" id="spk-saw">
+            <h2 class="text-3xl font-bold text-[#1560bd] mb-8 text-center animate-fadeInUp">
+                Sistem Pendukung Keputusan (SPK) dengan Metode SAW
+            </h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-700 mb-12 animate-fadeInUp">
+                Gunakan metode Simple Additive Weighting (SAW) untuk membantu menentukan produk terbaik berdasarkan
+                kriteria tertentu.
+            </p>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold mb-4">Input Alternatif Produk</h3>
+
+                <table class="spk-table w-full mb-6">
+                    <thead>
+                        <tr>
+                            <th>Produk</th>
+                            <th>Harga (Cost)</th>
+                            <th>Kualitas</th>
+                            <th>Stok</th>
+                            <th>Popularitas</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inputBody"></tbody>
+                </table>
+
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <button onclick="tambahBaris()"
+                        class="bg-[#1560bd] text-white px-4 py-2 rounded hover:bg-[#0f4a8a] transition spk-button">
+                        + Tambah Produk
+                    </button>
+                    <button onclick="lakukanNormalisasi()"
+                        class="bg-[#1560bd] text-white px-4 py-2 rounded hover:bg-[#0f4a8a] transition spk-button">
+                        🔄 Normalisasi
+                    </button>
+                    <button onclick="hitungSAW()" disabled id="btnHitung"
+                        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition spk-button">
+                        ✅ Hitung SAW
+                    </button>
+                </div>
+
+                <div id="normalisasiSection" class="hidden">
+                    <h3 class="text-xl font-semibold mb-4">Hasil Normalisasi:</h3>
+                    <table class="spk-table w-full mb-6">
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Harga</th>
+                                <th>Kualitas</th>
+                                <th>Stok</th>
+                                <th>Popularitas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="normalisasiBody"></tbody>
+                    </table>
+                </div>
+
+                <div id="rankingSection" class="hidden">
+                    <h3 class="text-xl font-semibold mb-4">Ranking Produk:</h3>
+                    <ol id="hasilRanking" class="list-decimal pl-6 space-y-2"></ol>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0f4a8a] text-white py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-sm">
+                © 2024 Dragon Cell. Semua hak cipta dilindungi.
+            </p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a aria-label="Facebook" class="hover:text-gray-300" href="#">
+                    <i class="fab fa-facebook fa-lg"></i>
+                </a>
+                <a aria-label="Instagram" class="hover:text-gray-300" href="#">
+                    <i class="fab fa-instagram fa-lg"></i>
+                </a>
+                <a aria-label="WhatsApp" class="hover:text-gray-300" href="https://wa.me/+6285282909900">
+                    <i class="fab fa-whatsapp fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-btn').addEventListener('click', function () {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // SAW Modal functions
+        function openSawModal() {
+            document.getElementById('sawModal').style.display = 'block';
+        }
+
+        function closeSawModal() {
+            document.getElementById('sawModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function (event) {
+            const modal = document.getElementById('sawModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // SAW Calculation
+        function calculateSAW() {
+            const category = document.getElementById('productCategory').value;
+            let products = [];
+            let results = [];
+
+            // Define products data for each category
+            if (category === 'voucher') {
+                products = [
+                    { name: 'Telkomsel', harga: 3, kualitas: 4, popularitas: 5, garansi: 2, ketersediaan: 5 },
+                    { name: 'XL', harga: 4, kualitas: 3, popularitas: 4, garansi: 3, ketersediaan: 4 },
+                    { name: 'Smartfren', harga: 5, kualitas: 3, popularitas: 3, garansi: 4, ketersediaan: 4 },
+                    { name: 'IM3', harga: 4, kualitas: 4, popularitas: 4, garansi: 3, ketersediaan: 5 },
+                    { name: 'Exsis', harga: 5, kualitas: 3, popularitas: 3, garansi: 3, ketersediaan: 3 }
+                ];
+            } else if (category === 'powerbank') {
+                products = [
+                    { name: 'Xiaomi', harga: 3, kualitas: 5, popularitas: 5, garansi: 4, ketersediaan: 5 },
+                    { name: 'Vivan', harga: 4, kualitas: 4, popularitas: 4, garansi: 3, ketersediaan: 4 },
+                    { name: 'Robot', harga: 5, kualitas: 3, popularitas: 3, garansi: 2, ketersediaan: 5 }
+                ];
+            } else if (category === 'earphone') {
+                products = [
+                    { name: 'Robot', harga: 3, kualitas: 4, popularitas: 4, garansi: 3, ketersediaan: 5 },
+                    { name: 'JBL', harga: 2, kualitas: 5, popularitas: 5, garansi: 4, ketersediaan: 4 },
+                    { name: 'Jete', harga: 4, kualitas: 3, popularitas: 3, garansi: 2, ketersediaan: 4 },
+                    { name: 'Monster', harga: 3, kualitas: 4, popularitas: 4, garansi: 3, ketersediaan: 5 }
+                ];
+            } else if (category === 'casing') {
+                products = [
+                    { name: 'Samsung', harga: 4, kualitas: 4, popularitas: 4, garansi: 3, ketersediaan: 5 },
+                    { name: 'Apple iPhone', harga: 3, kualitas: 5, popularitas: 5, garansi: 4, ketersediaan: 4 },
+                    { name: 'Oppo', harga: 4, kualitas: 4, popularitas: 4, garansi: 3, ketersediaan: 4 },
+                    { name: 'Xiaomi', harga: 5, kualitas: 3, popularitas: 3, garansi: 2, ketersediaan: 5 }
+                ];
+            }
+
+            // Define weights for each criterion
+            const weights = {
+                harga: 0.30,    // Cost (lower is better)
+                kualitas: 0.25, // Benefit (higher is better)
+                popularitas: 0.20, // Benefit
+                garansi: 0.15,  // Benefit
+                ketersediaan: 0.10 // Benefit
+            };
+
+            // Normalize the matrix and calculate scores
+            products.forEach(product => {
+                // For cost criteria (harga), we use min/xij
+                // For benefit criteria, we use xij/max
+
+                // Find min and max for each criterion
+                const minHarga = Math.min(...products.map(p => p.harga));
+                const maxKualitas = Math.max(...products.map(p => p.kualitas));
+                const maxPopularitas = Math.max(...products.map(p => p.popularitas));
+                const maxGaransi = Math.max(...products.map(p => p.garansi));
+                const maxKetersediaan = Math.max(...products.map(p => p.ketersediaan));
+
+                // Calculate normalized values
+                const normHarga = minHarga / product.harga;
+                const normKualitas = product.kualitas / maxKualitas;
+                const normPopularitas = product.popularitas / maxPopularitas;
+                const normGaransi = product.garansi / maxGaransi;
+                const normKetersediaan = product.ketersediaan / maxKetersediaan;
+
+                // Calculate weighted score
+                const score =
+                    (normHarga * weights.harga) +
+                    (normKualitas * weights.kualitas) +
+                    (normPopularitas * weights.popularitas) +
+                    (normGaransi * weights.garansi) +
+                    (normKetersediaan * weights.ketersediaan);
+
+                results.push({
+                    name: product.name,
+                    score: score.toFixed(4)
+                });
+            });
+
+            // Sort results by score (descending)
+            results.sort((a, b) => b.score - a.score);
+
+            // Display results
+            const resultsBody = document.getElementById('sawResultsBody');
+            resultsBody.innerHTML = '';
+
+            results.forEach((result, index) => {
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = result.name;
+
+                const scoreCell = document.createElement('td');
+                scoreCell.textContent = result.score;
+
+                const rankCell = document.createElement('td');
+                rankCell.textContent = index + 1;
+
+                const recCell = document.createElement('td');
+                if (index === 0) {
+                    recCell.innerHTML = '<span class="bg-green-100 text-green-800 px-2 py-1 rounded">Rekomendasi Terbaik</span>';
+                } else if (index === 1) {
+                    recCell.innerHTML = '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Alternatif Baik</span>';
+                } else {
+                    recCell.innerHTML = '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded">Pilihan Lain</span>';
+                }
+
+                row.appendChild(nameCell);
+                row.appendChild(scoreCell);
+                row.appendChild(rankCell);
+                row.appendChild(recCell);
+
+                resultsBody.appendChild(row);
+            });
+
+            // Show results section
+            document.getElementById('sawResults').classList.remove('hidden');
+        }
+
+        // SPK SAW Functions
+        let dataProduk = [];
+        let hasilNormalisasi = [];
+
+        function tambahBaris() {
+            const tbody = document.getElementById("inputBody");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><input type="text" placeholder="Nama Produk" class="border rounded p-1 w-full" /></td>
+                <td><input type="number" class="border rounded p-1 w-full spk-input" /></td>
+                <td><input type="number" class="border rounded p-1 w-full spk-input" /></td>
+                <td><input type="number" class="border rounded p-1 w-full spk-input" /></td>
+                <td><input type="number" class="border rounded p-1 w-full spk-input" /></td>
+                <td><button onclick="hapusBaris(this)" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Hapus</button></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function hapusBaris(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        function lakukanNormalisasi() {
+            dataProduk = [];
+            const rows = document.querySelectorAll("#inputBody tr");
+
+            for (let r of rows) {
+                const input = r.querySelectorAll("input");
+                const nama = input[0].value;
+                const harga = parseFloat(input[1].value);
+                const kualitas = parseFloat(input[2].value);
+                const stok = parseFloat(input[3].value);
+                const popularitas = parseFloat(input[4].value);
+
+                if (!nama || isNaN(harga) || isNaN(kualitas) || isNaN(stok) || isNaN(popularitas)) {
+                    alert("Lengkapi semua kolom terlebih dahulu!");
+                    return;
+                }
+
+                dataProduk.push({ nama, harga, kualitas, stok, popularitas });
+            }
+
+            // Normalisasi
+            const minHarga = Math.min(...dataProduk.map(p => p.harga)); // cost
+            const maxKualitas = Math.max(...dataProduk.map(p => p.kualitas));
+            const maxStok = Math.max(...dataProduk.map(p => p.stok));
+            const maxPopularitas = Math.max(...dataProduk.map(p => p.popularitas));
+
+            hasilNormalisasi = dataProduk.map(p => {
+                return {
+                    nama: p.nama,
+                    harga: minHarga / p.harga,
+                    kualitas: p.kualitas / maxKualitas,
+                    stok: p.stok / maxStok,
+                    popularitas: p.popularitas / maxPopularitas
+                };
+            });
+
+            tampilkanNormalisasi();
+            document.getElementById("btnHitung").disabled = false;
+        }
+
+        function tampilkanNormalisasi() {
+            const tbody = document.getElementById("normalisasiBody");
+            tbody.innerHTML = "";
+            hasilNormalisasi.forEach(p => {
+                const row = `
+                    <tr>
+                        <td>${p.nama}</td>
+                        <td>${p.harga.toFixed(3)}</td>
+                        <td>${p.kualitas.toFixed(3)}</td>
+                        <td>${p.stok.toFixed(3)}</td>
+                        <td>${p.popularitas.toFixed(3)}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+
+            document.getElementById("normalisasiSection").classList.remove("hidden");
+        }
+
+        function hitungSAW() {
+            const bobot = [0.3, 0.25, 0.2, 0.25]; // [Harga, Kualitas, Stok, Popularitas]
+            const hasil = hasilNormalisasi.map(p => {
+                const skor = (p.harga * bobot[0]) + (p.kualitas * bobot[1]) +
+                    (p.stok * bobot[2]) + (p.popularitas * bobot[3]);
+                return { nama: p.nama, skor };
+            });
+
+            hasil.sort((a, b) => b.skor - a.skor);
+
+            const hasilList = document.getElementById("hasilRanking");
+            hasilList.innerHTML = "";
+            hasil.forEach(p => {
+                hasilList.innerHTML += `<li><strong>${p.nama}</strong> - Skor: ${p.skor.toFixed(4)}</li>`;
+            });
+
+            document.getElementById("rankingSection").classList.remove("hidden");
+        }
+    </script>
+
+    <script type="module">
+        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+        Chatbot.init({
+            chatflowid: "25d559d8-8420-48ad-bb12-6a74f42db08a",
+            apiHost: "https://cloud.flowiseai.com",
+            chatflowConfig: {
+                /* Chatflow Config */
+            },
+            observersConfig: {
+                /* Observers Config */
+            },
+            theme: {
+                button: {
+                    backgroundColor: '#3B81F6',
+                    right: 30,
+                    bottom: 40,
+                    size: 50,
+                    dragAndDrop: true,
+                    iconColor: 'white',
+                    customIconSrc: 'https://cdn-icons-png.flaticon.com/512/8943/8943377.png',
+                },
+                customCSS: ``,
+                chatWindow: {
+                    showTitle: true,
+                    showAgentMessages: true,
+                    title: 'Dragon Asistent',
+                    titleAvatarSrc: 'https://cdn-icons-png.flaticon.com/512/4233/4233830.png',
+                    welcomeMessage: 'Hello! Assistent dragon cell siap membantu anda',
+                    errorMessage: 'Mohon maaf pertanyaan anda tidak bisa saya jawab',
+                    backgroundColor: '#ffffff',
+                    backgroundImage: 'enter image path or link',
+                    height: 500,
+                    width: 400,
+                    fontSize: 10,
+                    starterPromptFontSize: 10,
+                    clearChatOnReload: false,
+                    sourceDocsTitle: 'Sources:',
+                    renderHTML: true,
+                    botMessage: {
+                        backgroundColor: '#f7f8ff',
+                        textColor: '#303235',
+                        showAvatar: true,
+                        avatarSrc: 'https://cdn-icons-png.flaticon.com/512/4233/4233830.png'
+                    },
+                    userMessage: {
+                        backgroundColor: '#3B81F6',
+                        textColor: '#ffffff',
+                        showAvatar: true,
+                        avatarSrc: 'https://cdn-icons-png.flaticon.com/512/8708/8708580.png'
+                    },
+                    textInput: {
+                        placeholder: 'Type your question',
+                        backgroundColor: '#ffffff',
+                        textColor: '#303235',
+                        sendButtonColor: '#3B81F6',
+                        maxChars: 50,
+                        maxCharsWarningMessage: 'You exceeded the characters limit. Please input less than 50 characters.',
+                        autoFocus: true,
+                        sendMessageSound: true,
+                        sendSoundLocation: 'send_message.mp3',
+                        receiveMessageSound: true,
+                        receiveSoundLocation: 'receive_message.mp3'
+                    },
+                    feedback: {
+                        color: '#303235'
+                    },
+                    dateTimeToggle: {
+                        date: true,
+                        time: true
+                    },
+                    footer: {
+                        textColor: '#303235',
+                        text: 'Powered by',
+                        company: 'Flowise',
+                        companyLink: 'https://flowiseai.com'
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
